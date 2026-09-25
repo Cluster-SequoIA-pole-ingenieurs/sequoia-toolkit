@@ -20,6 +20,9 @@ import yaml
 from sequoia_toolkit.core.exceptions import SequoiaConfigError
 
 _ENV_PREFIX = "SEQUOIA_"
+# Variables exportees par les scripts de job generes : informations sur le job,
+# pas de la configuration (voir sequoia_toolkit.hpc.runtime).
+_RESERVED_PREFIX = "SEQUOIA_JOB_"
 
 
 @dataclass(frozen=True)
@@ -43,7 +46,7 @@ class Settings:
 def _apply_env_overrides(data: dict[str, Any]) -> dict[str, Any]:
     overridden = dict(data)
     for env_key, env_value in os.environ.items():
-        if not env_key.startswith(_ENV_PREFIX):
+        if not env_key.startswith(_ENV_PREFIX) or env_key.startswith(_RESERVED_PREFIX):
             continue
         key = env_key[len(_ENV_PREFIX) :].lower()
         overridden[key] = env_value

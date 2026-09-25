@@ -1,123 +1,83 @@
-"""Soumission et suivi de jobs Slurm (wrappers autour de sbatch/squeue/sacct).
+"""Facade simple : soumettre, suivre, attendre, annuler un job, quel que soit
+l'ordonnanceur.
 
-Ces fonctions appellent des binaires externes via subprocess : elles ne
-sont donc testables unitairement qu'en isolant l'appel systeme (voir
-tests/test_jobs.py qui mocke `subprocess.run`). Sur une machine sans
-Slurm (ex: CI GitHub Actions), ces fonctions ne peuvent pas s'executer
-reellement — c'est attendu.
+Chaque fonction accepte ``scheduler`` : un nom ("slurm", "pbs", "torque"), un
+adaptateur deja construit, ou ``None`` pour la resolution automatique
+(``SEQUOIA_SCHEDULER`` puis detection). Le code d'un projet n'a donc en general
+jamais besoin de preciser l'ordonnanceur.
 """
 
 from __future__ import annotations
 
-import enum
-import subprocess
-import tempfile
 import time
 from pathlib import Path
 
-from sequoia_toolkit.core.exceptions import SequoiaExternalToolError
-from sequoia_toolkit.core.log import get_logger
-from sequoia_toolkit.hpc.sbatch import SbatchOptions, render_sbatch_script
+from sequoia_toolkit.core.exceptions import SequoiaError
+from sequoia_toolkit.hpc.schedulers import Scheduler, get_scheduler
+from sequoia_toolkit.hpc.spec import JobSpec, JobStatus
 
-_log = get_logger(__name__)
-
-
-class JobStatus(str, enum.Enum):
-    """Sous-ensemble des etats Slurm utiles cote appelant Python."""
-
-    PENDING = "PENDING"
-    RUNNING = "RUNNING"
-    COMPLETED = "COMPLETED"
-    FAILED = "FAILED"
-    CANCELLED = "CANCELLED"
-    UNKNOWN = "UNKNOWN"
+SchedulerLike = Scheduler | str | None
 
 
-def submit_job(options: SbatchOptions, *, workdir: str | Path | None = None) -> str:
-    """Genere le script sbatch, le soumet, et retourne le job id Slurm.
+class SequoiaJobTimeoutError(SequoiaError):
+    """Le job n'a pas atteint d'etat final dans le delai imparti."""
+
+
+def _resolve(scheduler: SchedulerLike) -> Scheduler:
+    return scheduler if isinstance(scheduler, Scheduler) else get_scheduler(scheduler)
+
+
+def render_script(spec: JobSpec, *, scheduler: SchedulerLike = None) -> str:
+    """Texte du script de soumission (sbatch ou qsub), sans rien soumettre."""
+    return _resolve(scheduler).render_script(spec)
+
+
+def submit_job(
+    spec: JobSpec, *, scheduler: SchedulerLike = None, workdir: str | Path | None = None
+) -> str:
+    """Soumet le job et retourne son identifiant.
 
     Args:
-        options: parametres du job (voir `SbatchOptions`).
-        workdir: dossier ou ecrire le script genere. Par defaut, un
-            dossier temporaire (le script reste utile pour audit/debug,
-            donc en production preferer un dossier versionne du projet).
+        spec: description du job.
+        scheduler: voir la docstring du module.
+        workdir: dossier ou conserver le script genere (conseille : un dossier
+            du projet, pour garder une trace de ce qui a ete soumis).
+    """
+    return _resolve(scheduler).submit(spec, workdir=workdir)
+
+
+def get_job_status(job_id: str, *, scheduler: SchedulerLike = None) -> JobStatus:
+    return _resolve(scheduler).status(job_id)
+
+
+def cancel_job(job_id: str, *, scheduler: SchedulerLike = None) -> None:
+    _resolve(scheduler).cancel(job_id)
+
+
+def wait_for_job(
+    job_id: str,
+    *,
+    scheduler: SchedulerLike = None,
+    poll_interval_seconds: float = 15.0,
+    timeout_seconds: float | None = None,
+) -> JobStatus:
+    """Attend qu'un job atteigne un etat final, puis le retourne.
+
+    A utiliser depuis un notebook ou un script de pipeline, pas depuis un job
+    (ne pas immobiliser une allocation de calcul a attendre).
 
     Raises:
-        SequoiaExternalToolError: si `sbatch` retourne un code d'erreur.
+        SequoiaJobTimeoutError: si ``timeout_seconds`` est depasse.
     """
-    script_content = render_sbatch_script(options)
-
-    target_dir = Path(workdir) if workdir else Path(tempfile.mkdtemp(prefix="sequoia-hpc-"))
-    target_dir.mkdir(parents=True, exist_ok=True)
-    script_path = target_dir / f"{options.job_name}.sbatch"
-    script_path.write_text(script_content, encoding="utf-8")
-
-    _log.info("Soumission du job '%s' via %s", options.job_name, script_path)
-    result = subprocess.run(
-        ["sbatch", "--parsable", str(script_path)],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-
-    if result.returncode != 0:
-        raise SequoiaExternalToolError(
-            f"echec de sbatch pour {options.job_name} : {result.stderr.strip()}",
-            exit_code=result.returncode,
-        )
-
-    job_id = result.stdout.strip().split(";")[0]
-    _log.info("Job '%s' soumis avec l'id %s", options.job_name, job_id)
-    return job_id
-
-
-def get_job_status(job_id: str) -> JobStatus:
-    """Interroge l'etat courant d'un job via `squeue` (puis `sacct` si termine)."""
-    result = subprocess.run(
-        ["squeue", "-j", job_id, "-h", "-o", "%T"],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-
-    state = result.stdout.strip()
-    if state:
-        return _to_job_status(state)
-
-    # Le job n'est plus dans la queue : il est termine, on consulte sacct.
-    result = subprocess.run(
-        ["sacct", "-j", job_id, "-n", "-o", "State", "--parsable2"],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    first_line = result.stdout.strip().splitlines()[0] if result.stdout.strip() else ""
-    return _to_job_status(first_line)
-
-
-def _to_job_status(raw_state: str) -> JobStatus:
-    normalized = raw_state.split()[0].upper() if raw_state else ""
-    try:
-        return JobStatus(normalized)
-    except ValueError:
-        return JobStatus.UNKNOWN
-
-
-def wait_for_job(job_id: str, *, poll_interval_seconds: float = 15.0) -> JobStatus:
-    """Bloque jusqu'a ce que le job atteigne un etat terminal, puis le retourne.
-
-    A utiliser depuis un notebook ou un script de pipeline, pas depuis un
-    job Slurm lui-meme (eviter de bloquer une allocation de calcul en
-    attente passive).
-    """
-    terminal_states = {
-        JobStatus.COMPLETED,
-        JobStatus.FAILED,
-        JobStatus.CANCELLED,
-        JobStatus.UNKNOWN,
-    }
+    resolved = _resolve(scheduler)
+    deadline = None if timeout_seconds is None else time.monotonic() + timeout_seconds
     while True:
-        status = get_job_status(job_id)
-        if status in terminal_states:
+        status = resolved.status(job_id)
+        if status.is_terminal:
             return status
+        if deadline is not None and time.monotonic() >= deadline:
+            raise SequoiaJobTimeoutError(
+                f"le job {job_id} n'est pas termine apres {timeout_seconds}s "
+                f"(etat : {status.value})"
+            )
         time.sleep(poll_interval_seconds)

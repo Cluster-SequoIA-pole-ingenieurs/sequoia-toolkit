@@ -1,6 +1,8 @@
 # Copier en sequoia.yaml a la racine d'un projet.
 # Toute cle peut etre surchargee par une variable d'environnement SEQUOIA_<CLE>,
-# ex: SEQUOIA_PARTITION=gpu sbatch job.sh
+# ex: SEQUOIA_QUEUE=gpu python examples/entrainement.py
+# (les variables SEQUOIA_JOB_* sont reservees : elles decrivent le job en cours).
 project_name: mon-projet
-partition: cpu
-account: mon-compte-calcul
+scheduler: null   # slurm | pbs | torque ; null = detection automatique
+queue: null       # partition Slurm / file PBS ; null = defaut du site
+account: null

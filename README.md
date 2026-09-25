@@ -2,7 +2,7 @@
 
 Boîte à outils réutilisable de l'équipe ingénierie du
 [Cluster SequoIA](https://cluster-sequoia.univ-rennes.fr/) : un seul paquet
-pour ne plus réécrire, projet après projet, les mêmes scripts Slurm, la même
+pour ne plus réécrire, projet après projet, les mêmes scripts de job (Slurm ou PBS), la même
 gestion de configuration ou les mêmes utilitaires de données.
 
 ## Installation
@@ -31,7 +31,7 @@ pip install "sequoia-toolkit[tracking] @ git+https://github.com/Cluster-SequoIA-
 | Module | Pour faire quoi | Fonctions principales |
 |---|---|---|
 | `sequoia_toolkit.core` | Socle commun | `get_logger`, `load_settings`, `retry`, `timeit`, `SequoiaError` |
-| `sequoia_toolkit.hpc` | Jobs Slurm | `SbatchOptions`, `submit_job`, `wait_for_job`, `get_job_status` |
+| `sequoia_toolkit.hpc` | Jobs **Slurm et PBS** (Pro/OpenPBS, Torque) | `JobSpec`, `submit_job`, `wait_for_job`, `get_job_status`, `cancel_job`, `current_job` |
 | `sequoia_toolkit.ml` | Suivi d'expériences | `start_run` |
 | `sequoia_toolkit.data` | Données sur le cluster | `resolve_data_paths`, `verify_checksum`, `atomic_write` |
 
@@ -40,19 +40,21 @@ pip install "sequoia-toolkit[tracking] @ git+https://github.com/Cluster-SequoIA-
 ```python
 from sequoia_toolkit.core import get_logger, load_settings
 from sequoia_toolkit.data import resolve_data_paths
-from sequoia_toolkit.hpc import SbatchOptions, submit_job, wait_for_job
+from sequoia_toolkit.hpc import JobSpec, submit_job, wait_for_job
 from sequoia_toolkit.ml import start_run
 
 log = get_logger(__name__)
 settings = load_settings()  # ./sequoia.yaml + variables SEQUOIA_*
 paths = resolve_data_paths("mon-projet")  # scratch / work / home
 
+# Même code sous Slurm et sous PBS : l'ordonnanceur est détecté automatiquement.
 job_id = submit_job(
-    SbatchOptions(
+    JobSpec(
         job_name="entrainement",
         command="python train.py",
-        partition="gpu",
+        queue="gpu",
         gpus=1,
+        memory="32G",
         time_limit="04:00:00",
     )
 )
@@ -63,14 +65,33 @@ with start_run("baseline") as run:  # dans train.py
     run.log_metric("val_accuracy", 0.87, step=10)
 ```
 
-Exemple complet et commenté : [`examples/entrainement_slurm.py`](examples/entrainement_slurm.py).
+## En ligne de commande : un seul fichier de job pour Slurm et PBS
+
+Plus besoin de maintenir un `.sbatch` et un `.pbs` : un `job.yaml` suffit
+(modèle commenté : [`examples/job.yaml`](examples/job.yaml)).
+
+```bash
+sequoia-job detect                                  # slurm, pbs ou torque
+sequoia-job render job.yaml                         # voir le script généré
+sequoia-job --scheduler pbs render job.yaml         # ... pour un autre cluster
+sequoia-job submit job.yaml --set gpus=2 --wait --timeout 3600
+sequoia-job status <id>
+sequoia-job cancel <id>
+```
+
+Correspondance détaillée des options et des états entre ordonnanceurs,
+limites connues : [docs/hpc.md](docs/hpc.md).
+
+Exemple Python complet et commenté : [`examples/entrainement.py`](examples/entrainement.py).
 Configuration d'exemple : [`sequoia.yaml.example`](sequoia.yaml.example).
 
 ## ⚠️ À valider avec l'équipe infrastructure
 
 - Noms des variables d'environnement de stockage (`SCRATCH`, `WORK`) utilisées
   par `resolve_data_paths` : conventions HPC courantes, pas forcément celles du cluster.
-- Noms de partitions (`cpu`, `gpu`) et modules (`module load ...`) par défaut dans `SbatchOptions`.
+- Ordonnanceur(s) réellement utilisé(s) sur chaque cluster visé, et variante PBS (Pro/OpenPBS ou Torque).
+- Noms des files/partitions et des modules à renseigner dans les `JobSpec` (aucune valeur imposée par défaut).
+- Premier passage des tests d'intégration sur une machine PBS : `pytest -m integration --no-cov`.
 
 ## Contribuer
 

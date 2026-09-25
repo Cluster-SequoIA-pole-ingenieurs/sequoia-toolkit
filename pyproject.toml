@@ -4,15 +4,15 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sequoia-toolkit"
-version = "0.1.0"
-description = "Boite a outils reutilisable de l'equipe ingenierie du Cluster SequoIA (HPC/Slurm, IA/ML, donnees)."
+version = "0.2.0"
+description = "Boite a outils reutilisable de l'equipe ingenierie du Cluster SequoIA (HPC Slurm/PBS, IA/ML, donnees)."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "EUPL-1.2"
 authors = [
     { name = "Equipe Ingenierie Cluster SequoIA", email = "sequoia-ingenierie@univ-rennes.fr" }
 ]
-keywords = ["sequoia", "hpc", "slurm", "ia", "machine-learning", "univ-rennes"]
+keywords = ["sequoia", "hpc", "slurm", "pbs", "torque", "ia", "machine-learning", "univ-rennes"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Intended Audience :: Science/Research",
@@ -31,6 +31,9 @@ gpu = []              # ex: "torch>=2.3", a aligner sur le module CUDA du cluste
 all = ["sequoia-toolkit[tracking,object-storage,gpu]"]
 dev = ["pytest>=8.0", "pytest-cov>=5.0", "ruff>=0.6", "mypy>=1.10", "pre-commit>=3.7", "types-PyYAML"]
 docs = ["mkdocs-material>=9.5", "mkdocstrings[python]>=0.25"]
+
+[project.scripts]
+sequoia-job = "sequoia_toolkit.hpc.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/Cluster-SequoIA-pole-ingenieurs/sequoia-toolkit"
@@ -53,5 +56,6 @@ strict = true
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
-addopts = "-ra -q --cov=sequoia_toolkit --cov-report=term-missing"
+addopts = "-ra -q -m 'not integration' --cov=sequoia_toolkit --cov-report=term-missing"
 testpaths = ["tests"]
+markers = ["integration: necessite un vrai ordonnanceur (Slurm ou PBS)"]

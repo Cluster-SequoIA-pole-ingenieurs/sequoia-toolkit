@@ -4,7 +4,7 @@ Objectif : que deux equipes differentes qui utilisent sequoia-hpc et
 sequoia-ml obtiennent des logs au meme format, avec le meme niveau
 configurable via une seule variable d'environnement (SEQUOIA_LOG_LEVEL),
 ce qui facilite le debogage sur les noeuds de calcul (logs souvent
-recuperes a posteriori depuis un fichier slurm-*.out).
+recuperes a posteriori depuis les fichiers de sortie du job).
 """
 
 from __future__ import annotations
@@ -18,10 +18,13 @@ _DEFAULT_FORMAT = "%(asctime)s | %(levelname)-8s | %(name)s | job=%(sequoia_job_
 
 
 class _JobIdFilter(logging.Filter):
-    """Injecte l'identifiant de job Slurm (si present) dans chaque log."""
+    """Injecte l'identifiant du job (Slurm ou PBS, si present) dans chaque log."""
 
     def filter(self, record: logging.LogRecord) -> bool:
-        record.sequoia_job_id = os.environ.get("SLURM_JOB_ID", "-")
+        env = os.environ
+        record.sequoia_job_id = (
+            env.get("SEQUOIA_JOB_ID") or env.get("SLURM_JOB_ID") or env.get("PBS_JOBID") or "-"
+        )
         return True
 
 

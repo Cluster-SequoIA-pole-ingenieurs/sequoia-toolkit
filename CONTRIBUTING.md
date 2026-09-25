@@ -18,7 +18,7 @@ elle a été (ou va être) utile dans au moins deux projets.** En dessous, elle
 reste dans le projet.
 
 1. **Choisir le sous-module** :
-   - lié à Slurm / au calcul → `hpc/`
+   - lié aux jobs / au calcul (Slurm, PBS) → `hpc/`
    - lié à l'entraînement / l'évaluation de modèles → `ml/`
    - lié à la lecture / écriture / au stockage de données → `data/`
    - générique et utile partout → `core/`
@@ -26,14 +26,28 @@ reste dans le projet.
 2. **Créer ou compléter un fichier** dans ce sous-module (ex. `hpc/arrays.py`),
    avec docstrings et annotations de type.
 3. **Exposer la fonction** dans le `__init__.py` du sous-module (`__all__`).
-4. **Ajouter les tests** dans `tests/<sous-module>/`. Les appels à des outils
-   externes (sbatch, API réseau) sont mockés : la CI ne tourne pas sur le cluster.
+4. **Ajouter les tests** dans `tests/<sous-module>/`. Les appels aux ordonnanceurs
+   passent par le simulateur `runner` de `tests/hpc/conftest.py`. Toute fonction
+   `hpc` doit être testée pour Slurm **et** PBS.
 5. **Noter le changement** dans la section « Non publié » de `CHANGELOG.md`,
    puis ouvrir une PR.
 
 Si la fonctionnalité exige une dépendance lourde, l'ajouter dans un extra de
 `pyproject.toml` (existant ou nouveau), **jamais** dans `dependencies`, et
 l'importer à l'intérieur du sous-module concerné uniquement.
+
+## Tests d'intégration (vrais jobs)
+
+```bash
+pytest -m integration --no-cov                          # sur un nœud de connexion
+SEQUOIA_TEST_QUEUE=debug pytest -m integration --no-cov # en précisant la file
+```
+
+Ils sont exclus du `pytest` par défaut (ils soumettent de vrais jobs). La CI les
+exécute sous Slurm ; sous PBS, les lancer à la main sur un cluster PBS avant
+toute release touchant `hpc/schedulers/pbs.py`.
+
+Ajouter un ordonnanceur : voir la fin de [docs/hpc.md](docs/hpc.md).
 
 ## Règles d'architecture (vérifiées automatiquement)
 

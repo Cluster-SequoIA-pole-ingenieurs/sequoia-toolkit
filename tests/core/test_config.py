@@ -25,3 +25,12 @@ def test_env_override_wins(tmp_path, monkeypatch):
     settings = load_settings(config_file)
 
     assert settings["data_dir"] == "/scratch/override"
+
+
+def test_job_variables_are_not_configuration(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("SEQUOIA_JOB_ID", "123")
+    monkeypatch.setenv("SEQUOIA_SCHEDULER", "pbs")
+    settings = load_settings()
+    assert settings.get("job_id") is None
+    assert settings.get("scheduler") == "pbs"

@@ -23,6 +23,23 @@ jobs:
       - name: Format
         run: ruff format --check .
       - name: Typage
-        run: mypy src
-      - name: Tests (dont garde-fous d'architecture)
+        run: mypy src examples
+      - name: Tests unitaires (Slurm et PBS simules, garde-fous d'architecture)
         run: pytest
+
+  integration-slurm:
+    # Soumet de vrais jobs a un Slurm installe sur le runner.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - name: Installer un Slurm mono-noeud
+        run: sudo ci/setup-slurm.sh
+      - name: Tests d'integration
+        run: pytest -m integration --no-cov -v
+      - name: Journaux Slurm en cas d'echec
+        if: failure()
+        run: sudo tail -n 100 /var/log/slurm/*.log

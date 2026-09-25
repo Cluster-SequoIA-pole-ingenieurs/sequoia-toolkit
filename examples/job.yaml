@@ -1,0 +1,24 @@
+# Description de job portable Slurm / PBS, a utiliser avec la commande sequoia-job :
+#   sequoia-job render examples/job.yaml             # voir le script genere
+#   sequoia-job --scheduler pbs render examples/job.yaml
+#   sequoia-job submit examples/job.yaml --wait
+#   sequoia-job submit examples/job.yaml --set gpus=2 --set time_limit=08:00:00
+job_name: entrainement
+command: |
+  python train.py --config configs/base.yaml
+queue: null            # partition Slurm / file PBS ; null = defaut du site
+nodes: 1
+ntasks_per_node: 1
+cpus_per_task: 8       # exporte aussi en OMP_NUM_THREADS
+memory: 32G            # par noeud
+gpus: 1
+time_limit: "04:00:00" # toujours HH:MM:SS (entre guillemets en YAML)
+log_dir: logs
+account: null
+modules:
+  - cuda/12.2
+env:
+  WANDB_MODE: offline
+extra_directives:      # options propres a un ordonnanceur (optionnel)
+  slurm: []
+  pbs: []

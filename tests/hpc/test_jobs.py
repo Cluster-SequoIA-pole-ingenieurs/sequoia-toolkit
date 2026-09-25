@@ -1,52 +1,46 @@
-from unittest.mock import patch
-
 import pytest
 
-from sequoia_toolkit.core.exceptions import SequoiaExternalToolError
-from sequoia_toolkit.hpc.jobs import JobStatus, get_job_status, submit_job
-from sequoia_toolkit.hpc.sbatch import SbatchOptions
+from sequoia_toolkit.hpc import (
+    JobSpec,
+    JobStatus,
+    SequoiaJobTimeoutError,
+    get_job_status,
+    render_script,
+    submit_job,
+    wait_for_job,
+)
 
 
-class _FakeCompletedProcess:
-    def __init__(self, returncode=0, stdout="", stderr=""):
-        self.returncode = returncode
-        self.stdout = stdout
-        self.stderr = stderr
+def test_same_spec_renders_for_every_scheduler():
+    spec = JobSpec(job_name="demo", command="echo ok", gpus=1)
+    assert "#SBATCH --gres=gpu:1" in render_script(spec, scheduler="slurm")
+    assert "ngpus=1" in render_script(spec, scheduler="pbs")
+    assert "gpus=1" in render_script(spec, scheduler="torque")
 
 
-def test_submit_job_returns_job_id(tmp_path):
-    options = SbatchOptions(job_name="test_job", command="echo hello")
-
-    with patch("subprocess.run", return_value=_FakeCompletedProcess(stdout="123456;cluster")):
-        job_id = submit_job(options, workdir=tmp_path)
-
-    assert job_id == "123456"
-    assert (tmp_path / "test_job.sbatch").exists()
+def test_scheduler_from_environment(monkeypatch):
+    monkeypatch.setenv("SEQUOIA_SCHEDULER", "torque")
+    assert "#PBS -l nodes=1:ppn=1" in render_script(JobSpec(job_name="d", command="x"))
 
 
-def test_submit_job_raises_on_sbatch_failure(tmp_path):
-    options = SbatchOptions(job_name="test_job", command="echo hello")
-
-    with (
-        patch(
-            "subprocess.run",
-            return_value=_FakeCompletedProcess(returncode=1, stderr="partition invalide"),
-        ),
-        pytest.raises(SequoiaExternalToolError),
-    ):
-        submit_job(options, workdir=tmp_path)
+def test_submit_then_wait(tmp_path, monkeypatch, runner):
+    monkeypatch.chdir(tmp_path)
+    runner.on("qsub", "5.srv\n")
+    runner.on("qstat", "job_state = R\n")
+    runner.on("qstat", "job_state = F\nExit_status = 0\n")
+    job_id = submit_job(JobSpec(job_name="d", command="x"), scheduler="pbs")
+    assert wait_for_job(job_id, scheduler="pbs", poll_interval_seconds=0) is JobStatus.COMPLETED
 
 
-def test_get_job_status_running_from_squeue():
-    with patch("subprocess.run", return_value=_FakeCompletedProcess(stdout="RUNNING\n")):
-        assert get_job_status("123") == JobStatus.RUNNING
+def test_wait_timeout(runner):
+    for _ in range(5):
+        runner.on("squeue", "PENDING\n")
+    with pytest.raises(SequoiaJobTimeoutError):
+        wait_for_job("1", scheduler="slurm", poll_interval_seconds=0.01, timeout_seconds=0.02)
 
 
-def test_get_job_status_falls_back_to_sacct_when_not_in_queue():
-    responses = [
-        _FakeCompletedProcess(stdout=""),  # squeue : job absent de la queue
-        _FakeCompletedProcess(stdout="COMPLETED\n"),  # sacct
-    ]
+def test_get_job_status_accepts_scheduler_instance(runner):
+    from sequoia_toolkit.hpc import SlurmScheduler
 
-    with patch("subprocess.run", side_effect=responses):
-        assert get_job_status("123") == JobStatus.COMPLETED
+    runner.on("squeue", "COMPLETING\n")
+    assert get_job_status("1", scheduler=SlurmScheduler()) is JobStatus.RUNNING
