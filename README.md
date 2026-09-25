@@ -85,7 +85,7 @@ limites connues : [docs/hpc.md](docs/hpc.md).
 Exemple Python complet et commenté : [`examples/entrainement.py`](examples/entrainement.py).
 Configuration d'exemple : [`sequoia.yaml.example`](sequoia.yaml.example).
 
-## ⚠️ À valider avec l'équipe infrastructure
+## ⚠️ À adapter selon l'infrastructure utilisée
 
 - Noms des variables d'environnement de stockage (`SCRATCH`, `WORK`) utilisées
   par `resolve_data_paths` : conventions HPC courantes, pas forcément celles du cluster.
