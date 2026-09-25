@@ -1,0 +1,6 @@
+# Copier en sequoia.yaml a la racine d'un projet.
+# Toute cle peut etre surchargee par une variable d'environnement SEQUOIA_<CLE>,
+# ex: SEQUOIA_PARTITION=gpu sbatch job.sh
+project_name: mon-projet
+partition: cpu
+account: mon-compte-calcul

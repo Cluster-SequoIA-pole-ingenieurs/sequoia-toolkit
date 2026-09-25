@@ -1,0 +1,12 @@
+site_name: sequoia-toolkit
+theme:
+  name: material
+nav:
+  - Accueil: index.md
+  - Référence API: api.md
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
