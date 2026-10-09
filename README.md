@@ -12,7 +12,7 @@ gestion de configuration ou les mêmes utilitaires de données.
 pip install "sequoia-toolkit @ git+https://github.com/Cluster-SequoIA-pole-ingenieurs/sequoia-toolkit.git"
 
 # Version figée (recommandé dans un projet de recherche, pour la reproductibilité)
-pip install "sequoia-toolkit @ git+https://github.com/Cluster-SequoIA-pole-ingenieurs/sequoia-toolkit.git@v0.1.0"
+pip install "sequoia-toolkit @ git+https://github.com/Cluster-SequoIA-pole-ingenieurs/sequoia-toolkit.git@v0.2.0"
 
 # Avec les dépendances optionnelles d'un domaine
 pip install "sequoia-toolkit[tracking] @ git+https://github.com/Cluster-SequoIA-pole-ingenieurs/sequoia-toolkit.git"

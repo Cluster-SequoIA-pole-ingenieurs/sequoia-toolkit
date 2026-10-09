@@ -13,5 +13,6 @@
 ## Checklist
 
 - [ ] Les tests passent en local (`pytest`)
-- [ ] `ruff check .` et `mypy src` sont propres
+- [ ] `pre-commit run --all-files` et `mypy src examples` sont propres
 - [ ] La documentation / le README a été mis à jour si nécessaire
+- [ ] Le changement est noté dans la section « Non publié » du `CHANGELOG.md`

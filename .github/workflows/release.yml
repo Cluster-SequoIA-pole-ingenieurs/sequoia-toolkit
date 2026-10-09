@@ -1,25 +1,56 @@
 name: Release
 
-# Sur un tag vX.Y.Z : construit le paquet et cree une GitHub Release avec
-# les fichiers wheel/sdist attaches. Aucun index de paquets requis.
+# Sur un tag vX.Y.Z : relance toute la CI, verifie que le tag correspond a la
+# version du paquet et au CHANGELOG, construit le paquet, atteste sa provenance
+# et cree une GitHub Release avec les fichiers wheel/sdist attaches.
+# Aucun index de paquets requis.
 on:
   push:
     tags:
       - "v*.*.*"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
   release:
+    needs: ci
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write # creer la GitHub Release
+      id-token: write # signer l'attestation de provenance
+      attestations: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          python-version: "3.11"
-      - run: pip install build && python -m build
-      - uses: softprops/action-gh-release@v2
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
-          generate_release_notes: true
-          files: dist/*
+          python-version: "3.12"
+      - name: Verifier la coherence tag / pyproject.toml / CHANGELOG
+        run: |
+          version=$(python -c 'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')
+          if [ "v${version}" != "${GITHUB_REF_NAME}" ]; then
+            echo "::error::Le tag ${GITHUB_REF_NAME} ne correspond pas a la version ${version} de pyproject.toml"
+            exit 1
+          fi
+          if ! grep -q "^## \[${version}\]" CHANGELOG.md; then
+            echo "::error::Aucune section '## [${version}]' dans CHANGELOG.md"
+            exit 1
+          fi
+      - run: pip install build twine
+      - name: Construire wheel et sdist
+        run: python -m build
+      - run: twine check --strict dist/*
+      - name: Attester la provenance des fichiers publies
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: "dist/*"
+      - name: Creer la GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" dist/* --verify-tag --generate-notes --title "${GITHUB_REF_NAME}"
