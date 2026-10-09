@@ -11,3 +11,15 @@ venv/
 htmlcov/
 site/
 slurm-*.out
+
+# Construction du paquet
+build/
+dist/
+
+# Couverture
+.coverage.*
+coverage.xml
+
+# Sorties de jobs PBS / Torque (<nom>.o<id>, <nom>.e<id>)
+*.o[0-9]*
+*.e[0-9]*

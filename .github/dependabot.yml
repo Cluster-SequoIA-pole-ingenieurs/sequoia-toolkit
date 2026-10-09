@@ -4,7 +4,24 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    commit-message:
+      prefix: "chore(deps)"
+    # Une seule PR par mois pour toutes les dependances Python.
+    groups:
+      python:
+        patterns: ["*"]
+    ignore:
+      # ruff est epingle a la meme version que dans .pre-commit-config.yaml
+      # (verifie par tests/test_outillage.py) : le mettre a jour des deux cotes
+      # avec `pre-commit autoupdate`, voir CONTRIBUTING.md.
+      - dependency-name: "ruff"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "monthly"
+    commit-message:
+      prefix: "chore(deps)"
+    # Une seule PR par mois pour toutes les actions.
+    groups:
+      actions:
+        patterns: ["*"]

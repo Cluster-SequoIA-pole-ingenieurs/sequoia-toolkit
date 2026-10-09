@@ -74,8 +74,30 @@ et une ligne `::: sequoia_toolkit.<nom>` dans `docs/api.md`.
 
 ## Publier une version
 
-1. Déplacer les entrées « Non publié » du `CHANGELOG.md` sous le nouveau numéro.
-2. Mettre à jour `version` dans `pyproject.toml`.
-3. `git tag vX.Y.Z && git push --tags` : la CI crée la GitHub Release.
+1. Déplacer les entrées « Non publié » du `CHANGELOG.md` sous une section
+   `## [X.Y.Z] - AAAA-MM-JJ`.
+2. Mettre à jour `version` dans `pyproject.toml`, et la version figée
+   (`@vX.Y.Z`) dans le README (un test le vérifie).
+3. Fusionner ces changements sur `main`, puis depuis `main` :
+   `git tag vX.Y.Z && git push origin vX.Y.Z`.
+
+Le workflow `Release` relance toute la CI sur le tag, refuse de publier si le tag,
+`pyproject.toml` et le `CHANGELOG.md` ne concordent pas, puis crée la GitHub
+Release avec la wheel, le sdist et une attestation de provenance
+(vérifiable avec `gh attestation verify <fichier> --repo Cluster-SequoIA-pole-ingenieurs/sequoia-toolkit`).
 
 Versionnage SemVer : changement incompatible de l'API publique → version majeure.
+
+## Mettre à jour l'outillage
+
+Dependabot propose chaque mois les mises à jour des actions GitHub et des
+dépendances Python, **sauf ruff**, épinglé à la même version dans
+`pyproject.toml` et `.pre-commit-config.yaml`. Pour le mettre à jour :
+
+```bash
+pre-commit autoupdate
+# reporter la nouvelle version de ruff-pre-commit dans pyproject.toml (ruff==X.Y.Z)
+pre-commit run --all-files
+```
+
+`tests/test_outillage.py` échoue si les deux versions divergent.

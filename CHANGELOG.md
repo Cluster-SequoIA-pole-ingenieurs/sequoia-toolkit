@@ -5,6 +5,22 @@ versionnage : [SemVer](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+### Maintenance
+- CI : jeton `GITHUB_TOKEN` en lecture seule, actions épinglées par SHA,
+  annulation des runs obsolètes, délais maximum par job, Python 3.10 à 3.14,
+  hooks pre-commit exécutés en CI, construction de la doc (`mkdocs --strict`)
+  et du paquet (`twine check`, installation de la wheel) à chaque PR.
+- Release : relance la CI sur le tag, vérifie la concordance tag /
+  `pyproject.toml` / `CHANGELOG.md`, atteste la provenance des fichiers publiés.
+- Sécurité : analyse CodeQL (Python et workflows), revue des dépendances sur
+  les PR, `SECURITY.md`.
+- Outillage : ruff épinglé à la même version en local et en CI, seuil de
+  couverture à 90 %, `mkdocs < 2`, `.editorconfig`, `.gitignore` complété.
+
+### Corrigé
+- README : la version figée recommandée pointait vers `v0.1.0`, tag inexistant
+  et antérieur aux changements incompatibles de la 0.2.0.
+
 ## [0.2.0] - 2026-09-25
 
 ### Ajouté
