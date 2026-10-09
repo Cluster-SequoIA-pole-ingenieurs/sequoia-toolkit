@@ -29,5 +29,7 @@ SPECS = [
 @pytest.mark.parametrize("spec", SPECS, ids=lambda s: s.job_name)
 def test_generated_script_is_valid_bash(scheduler, spec):
     script = render_script(spec, scheduler=scheduler)
-    result = subprocess.run(["bash", "-n"], input=script, text=True, capture_output=True)
+    result = subprocess.run(
+        ["bash", "-n"], input=script, text=True, capture_output=True, check=False
+    )
     assert result.returncode == 0, result.stderr

@@ -26,9 +26,31 @@ def test_retry_eventually_succeeds():
 
 
 def test_retry_raises_after_exhausting_attempts():
+    calls = {"n": 0}
+
     @retry(times=2, delay_seconds=0)
     def always_fails():
+        calls["n"] += 1
         raise ValueError("echec permanent")
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="echec permanent"):
         always_fails()
+    assert calls["n"] == 2
+
+
+def test_retry_does_not_catch_unlisted_exceptions():
+    calls = {"n": 0}
+
+    @retry(times=3, delay_seconds=0, exceptions=(ValueError,))
+    def wrong_type():
+        calls["n"] += 1
+        raise KeyError("non reessayee")
+
+    with pytest.raises(KeyError):
+        wrong_type()
+    assert calls["n"] == 1
+
+
+def test_retry_rejects_zero_attempts():
+    with pytest.raises(ValueError, match="au moins 1"):
+        retry(times=0)

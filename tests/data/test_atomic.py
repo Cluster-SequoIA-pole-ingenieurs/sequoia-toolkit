@@ -14,12 +14,17 @@ def test_atomic_write_creates_final_file(tmp_path):
     assert list(target.parent.iterdir()) == [target]
 
 
+def _write_then_fail(target):
+    with atomic_write(target) as f:
+        f.write("contenu partiel")
+        raise ValueError("echec simule pendant l'ecriture")
+
+
 def test_atomic_write_does_not_leave_partial_file_on_error(tmp_path):
     target = tmp_path / "resultat.txt"
 
-    with pytest.raises(ValueError), atomic_write(target) as f:
-        f.write("contenu partiel")
-        raise ValueError("echec simule pendant l'ecriture")
+    with pytest.raises(ValueError, match="echec simule"):
+        _write_then_fail(target)
 
     assert not target.exists()
     assert list(tmp_path.iterdir()) == []

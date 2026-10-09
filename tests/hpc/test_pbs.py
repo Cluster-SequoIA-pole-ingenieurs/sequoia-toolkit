@@ -74,7 +74,9 @@ def test_body_returns_to_submit_dir_and_normalises_env():
 
 def test_minimal_script_has_no_optional_directives():
     script = PRO.render_script(JobSpec(job_name="demo", command="x"))
-    assert "-q " not in script and "-A " not in script and "ngpus" not in script
+    assert "-q " not in script
+    assert "-A " not in script
+    assert "ngpus" not in script
 
 
 def test_submit_keeps_full_job_id(tmp_path, monkeypatch, runner):
@@ -134,5 +136,5 @@ def test_cancel(runner):
 
 
 def test_unknown_flavor_rejected():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="variante PBS inconnue"):
         PBSScheduler("lsf")  # type: ignore[arg-type]

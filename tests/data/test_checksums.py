@@ -1,3 +1,5 @@
+import hashlib
+
 import pytest
 
 from sequoia_toolkit.data.checksums import SequoiaChecksumError, compute_sha256, verify_checksum
@@ -8,8 +10,6 @@ def test_compute_sha256_matches_known_value(tmp_path):
     file_path.write_text("sequoia")
 
     # Valeur de reference calculee independamment (hashlib, contenu "sequoia")
-    import hashlib
-
     expected = hashlib.sha256(b"sequoia").hexdigest()
 
     assert compute_sha256(file_path) == expected

@@ -4,6 +4,7 @@ from sequoia_toolkit.hpc import (
     JobSpec,
     JobStatus,
     SequoiaJobTimeoutError,
+    SlurmScheduler,
     get_job_status,
     render_script,
     submit_job,
@@ -40,7 +41,5 @@ def test_wait_timeout(runner):
 
 
 def test_get_job_status_accepts_scheduler_instance(runner):
-    from sequoia_toolkit.hpc import SlurmScheduler
-
     runner.on("squeue", "COMPLETING\n")
     assert get_job_status("1", scheduler=SlurmScheduler()) is JobStatus.RUNNING
