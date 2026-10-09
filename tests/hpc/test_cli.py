@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from sequoia_toolkit.hpc.cli import main
 
 JOB_YAML = """
@@ -40,7 +42,8 @@ def test_set_overrides_with_typed_values(tmp_path, capsys):
         == 0
     )
     out = capsys.readouterr().out
-    assert "--gres=gpu:4" in out and "module load cuda/12.2" in out
+    assert "--gres=gpu:4" in out
+    assert "module load cuda/12.2" in out
 
 
 def test_invalid_file_gives_clean_error(tmp_path, capsys):
@@ -67,8 +70,6 @@ def test_detect(capsys):
 
 
 def test_shipped_example_is_valid(capsys):
-    from pathlib import Path
-
     example = Path(__file__).resolve().parents[2] / "examples" / "job.yaml"
     for scheduler in ("slurm", "pbs", "torque"):
         assert main(["--scheduler", scheduler, "render", str(example)]) == 0

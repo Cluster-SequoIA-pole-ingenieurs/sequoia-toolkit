@@ -72,7 +72,30 @@ line-length = 100
 target-version = "py310"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B", "SIM", "N"]
+select = [
+    "E", "F", "I", "UP", "B", "SIM", "N",
+    "RUF",  # regles propres a ruff
+    "PT",   # bonnes pratiques pytest
+    "S",    # securite (bandit)
+    "C4",   # comprehensions
+    "PIE",  # constructions inutiles
+    "RET",  # instructions return
+    "PTH",  # pathlib plutot que os.path
+    "PL",   # pylint
+    "SLF",  # acces aux membres prives
+]
+ignore = [
+    "RUF022",  # __all__ regroupe par theme plutot que par ordre alphabetique
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+    "S101",     # assert est la facon d'ecrire un test pytest
+    "S603",     # sous-processus lances par les tests eux-memes
+    "S607",
+    "PLR2004",  # valeurs attendues ecrites en clair dans les tests
+    "SLF001",   # les tests peuvent viser des fonctions internes
+]
 
 [tool.mypy]
 python_version = "3.10"

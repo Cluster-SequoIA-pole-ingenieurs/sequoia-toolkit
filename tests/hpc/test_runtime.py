@@ -39,7 +39,9 @@ def test_toolkit_variables_take_precedence(monkeypatch):
     monkeypatch.setenv("SEQUOIA_JOB_CPUS_PER_TASK", "8")
     monkeypatch.setenv("NCPUS", "32")  # coeurs par noeud, a ne pas confondre
     job = current_job()
-    assert job is not None and job.cpus_per_task == 8 and job.scheduler == "pbs"
+    assert job is not None
+    assert job.cpus_per_task == 8
+    assert job.scheduler == "pbs"
 
 
 def test_native_slurm(monkeypatch):
@@ -47,11 +49,8 @@ def test_native_slurm(monkeypatch):
     monkeypatch.setenv("SLURM_CPUS_PER_TASK", "4")
     monkeypatch.setenv("SLURM_ARRAY_TASK_ID", "3")
     job = current_job()
-    assert job is not None and (job.scheduler, job.cpus_per_task, job.array_index) == (
-        "slurm",
-        4,
-        3,
-    )
+    assert job is not None
+    assert (job.scheduler, job.cpus_per_task, job.array_index) == ("slurm", 4, 3)
 
 
 def test_native_torque(monkeypatch):
@@ -59,4 +58,6 @@ def test_native_torque(monkeypatch):
     monkeypatch.setenv("PBS_NUM_PPN", "16")
     monkeypatch.setenv("PBS_ARRAYID", "x")  # valeur invalide ignoree
     job = current_job()
-    assert job is not None and job.cpus_per_task == 16 and job.array_index is None
+    assert job is not None
+    assert job.cpus_per_task == 16
+    assert job.array_index is None

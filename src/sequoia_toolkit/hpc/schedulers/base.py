@@ -129,7 +129,8 @@ class Scheduler(ABC):
     @staticmethod
     def _run(args: list[str]) -> subprocess.CompletedProcess[str]:
         try:
-            return subprocess.run(args, capture_output=True, text=True, check=False)
+            # args vient des methodes *_args de l'ordonnanceur, jamais d'un shell.
+            return subprocess.run(args, capture_output=True, text=True, check=False)  # noqa: S603
         except FileNotFoundError as exc:
             raise SequoiaExternalToolError(
                 f"commande introuvable : {args[0]} (etes-vous sur un noeud du cluster ?)"

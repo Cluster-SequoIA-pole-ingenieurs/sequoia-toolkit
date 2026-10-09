@@ -16,8 +16,13 @@ versionnage : [SemVer](https://semver.org/lang/fr/).
   les PR, `SECURITY.md`.
 - Outillage : ruff épinglé à la même version en local et en CI, seuil de
   couverture à 90 %, `mkdocs < 2`, `.editorconfig`, `.gitignore` complété.
+- Lint : règles ruff étendues (`RUF`, `PT`, `S`, `C4`, `PIE`, `RET`, `PTH`,
+  `PL`, `SLF`) ; tests ajustés en conséquence.
 
 ### Corrigé
+- `retry(times=0)` lève désormais un `ValueError` explicite dès la décoration,
+  au lieu d'un `AssertionError` au premier appel (ou d'une erreur obscure sous
+  `python -O`).
 - README : la version figée recommandée pointait vers `v0.1.0`, tag inexistant
   et antérieur aux changements incompatibles de la 0.2.0.
 

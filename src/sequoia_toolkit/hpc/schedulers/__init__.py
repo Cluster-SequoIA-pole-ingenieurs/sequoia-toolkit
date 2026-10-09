@@ -40,7 +40,13 @@ def _build(name: str) -> Scheduler:
 def detect_pbs_flavor() -> Flavor:
     """PBS Pro / OpenPBS affichent 'pbs_version = ...', Torque 'Version: ...'."""
     try:
-        result = subprocess.run(["qstat", "--version"], capture_output=True, text=True, check=False)
+        # qstat est resolu via le PATH : son emplacement depend du site (modules).
+        result = subprocess.run(
+            ["qstat", "--version"],  # noqa: S607
+            capture_output=True,
+            text=True,
+            check=False,
+        )
     except FileNotFoundError:
         return "pro"
     text = (result.stdout + result.stderr).lower()

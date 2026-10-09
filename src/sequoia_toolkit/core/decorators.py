@@ -45,16 +45,17 @@ def retry(
     Utile par exemple pour des appels reseau ponctuels (registre de
     modeles, stockage objet) depuis un noeud de calcul.
     """
+    if times < 1:
+        raise ValueError(f"retry : times doit valoir au moins 1 (recu {times})")
 
     def decorator(func: Callable[..., T]) -> Callable[..., T]:
         @functools.wraps(func)
         def wrapper(*args: object, **kwargs: object) -> T:
-            last_exc: BaseException | None = None
-            for attempt in range(1, times + 1):
+            attempt = 1
+            while True:
                 try:
                     return func(*args, **kwargs)
                 except exceptions as exc:
-                    last_exc = exc
                     _log.warning(
                         "%s a echoue (tentative %d/%d) : %s",
                         func.__qualname__,
@@ -62,10 +63,10 @@ def retry(
                         times,
                         exc,
                     )
-                    if attempt < times:
-                        time.sleep(delay_seconds)
-            assert last_exc is not None
-            raise last_exc
+                    if attempt >= times:
+                        raise
+                time.sleep(delay_seconds)
+                attempt += 1
 
         return wrapper
 

@@ -54,5 +54,7 @@ def test_from_dict_builds_spec():
 
 
 def test_terminal_states():
-    assert JobStatus.COMPLETED.is_terminal and JobStatus.UNKNOWN.is_terminal
-    assert not JobStatus.PENDING.is_terminal and not JobStatus.RUNNING.is_terminal
+    assert JobStatus.COMPLETED.is_terminal
+    assert JobStatus.UNKNOWN.is_terminal
+    assert not JobStatus.PENDING.is_terminal
+    assert not JobStatus.RUNNING.is_terminal

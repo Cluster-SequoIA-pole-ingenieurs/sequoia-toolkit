@@ -31,7 +31,8 @@ def _no_env(monkeypatch):
 )
 def test_explicit_name(name, cls, resolved):
     scheduler = get_scheduler(name)
-    assert isinstance(scheduler, cls) and scheduler.name == resolved
+    assert isinstance(scheduler, cls)
+    assert scheduler.name == resolved
 
 
 def test_unknown_name_rejected():
