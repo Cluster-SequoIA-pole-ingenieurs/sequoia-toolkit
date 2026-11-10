@@ -51,9 +51,19 @@ dans lequel il doit être utilisé.
 
 Pour les instructions détaillées d'un skill, lisez directement son `SKILL.md`.
 
-## Utiliser un skill dans Pi
+## Installer Pi et configurer l'accès LLM
 
-### 1. Préparer l'environnement
+### 1. Installer Pi
+
+```bash
+curl -fsSL https://pi.dev/install.sh | sh
+```
+
+Vérifiez l'installation :
+
+```bash
+pi --version
+```
 
 Pi découvre les skills récursivement dans :
 
@@ -66,37 +76,12 @@ Le plus simple : démarrez Pi depuis la racine du dépôt, les skills dans
 `skills/` seront découverts automatiquement (ce dossier est spécifié dans
 `.pi/settings.json`).
 
-### 2. Lancer Pi
+### 2. Clé API ILaaS
 
-```bash
-cd /path/to/sequoia-toolkit
-pi
-```
+[ILaaS](https://www.ilaas.fr/) (Intelligence Artificielle comme Service) est un service d'inférence souverain ouvert aux chercheurs de l'Enseignement Supérieur et de la Recherche français (ESR), hébergé par INRIA. Il fournit une API compatible OpenAI avec une large gamme de modèles open-source.
 
-### 3. Invoquer le skill
-
-```
-/skill:sequoia-request-evaluator
-```
-
-Puis fournissez le texte de la demande à évaluer. Les arguments après
-`/skill:name` sont appendés aux instructions chargées.
-
-### 4. Recharger après modification
-
-```
-/reload
-```
-
-## Configuration : Pi + ILaaS + pdf-mcp
-
-[ILaaS](https://www.ilaas.fr/) est le service d'inférence souverain pour la
-recherche française (ESR). Voici la configuration complète pour utiliser les
-skills avec Pi.
-
-### 1. Clé API ILaaS
-
-Créez une clé API ILaaS et stockez-la dans `~/.pi/agent/auth.json` :
+1. Rendez-vous sur la [page de demande de clés](https://www.ilaas.fr/demande-de-cles-individuelles-ilaas-esr/) et suivez les instructions pour obtenir une clé API personnelle (commence par `sk-`).
+2. Stockez la clé dans `~/.pi/agent/auth.json` :
 
 ```json
 {
@@ -107,7 +92,7 @@ Créez une clé API ILaaS et stockez-la dans `~/.pi/agent/auth.json` :
 }
 ```
 
-### 2. Configuration du modèle
+### 3. Configurer le modèle
 
 Configurez le modèle dans `~/.pi/agent/models.json` :
 
@@ -133,18 +118,17 @@ Configurez le modèle dans `~/.pi/agent/models.json` :
 }
 ```
 
-### 3. Serveur MCP pdf-mcp
+Le modèle recommandé pour les tâches de ce dépôt est `qwen-3.6-35b-instruct`.
 
-Pour qu'un skill puisse lire un PDF, Pi doit pouvoir y accéder.
-Le serveur MCP **pdf-mcp** fournit les outils de lecture et de recherche dans
-les PDF à l'agent.
+### 4. Serveur MCP pdf-mcp (optionnel)
+
+Pour lire des PDFs dans les skills, installez pdf-mcp :
 
 ```bash
 pip install pdf-mcp
 ```
 
-Ajoutez le serveur dans `~/.pi/agent/mcp.json` (ou `.pi/mcp.json` pour une
-configuration projet) :
+Ajoutez-le dans `~/.pi/agent/mcp.json` :
 
 ```json
 {
@@ -156,35 +140,49 @@ configuration projet) :
 }
 ```
 
-Validez la connexion :
+Validez : `pi mcp list`
+
+### 5. Invoquer un skill
 
 ```bash
-pi mcp list
+cd /path/to/sequoia-toolkit
+pi
 ```
 
-### Changer de modèle (facultatif)
+Dans le chat, invoquez le skill soit **de manière déterministe** avec la commande
+`/skill:name`, soit **en langage naturel** (Pi détectera automatiquement le
+skill grâce à sa description) :
 
-Changez de modèle dans Pi avec `/model` ou modifiez `models.json`.
+```
+/skill:sequoia-request-evaluator
+```
+
+Puis fournissez le texte de la demande à évaluer. Les arguments après
+`/skill:name` sont appendés aux instructions chargées.
+
+Après modification d'un `SKILL.md`, rechargez l'agent avec :
+
+```
+/reload
+```
+
+### 6. Changer de modèle (facultatif)
+
+Ajoutez d'autres modèles dans `models.json` et changez de modèle dans Pi avec `/model`.
 Le skill fonctionne avec n'importe quel modèle de capacité suffisante
 (contexte ≥ 32K recommandé).
 
 ## Exemple : évaluer une demande
 
 Le workflow ci-dessous est celui utilisé par les ingénieurs SequoIA.
-Supposez que les configurations ci-dessus (ILaaS, pdf-mcp) sont déjà en place.
+Supposez que les configurations ci-dessus (Pi, ILaaS, pdf-mcp) sont déjà en place.
 
-1. **Lancer Pi** depuis la racine du dépôt :
-   ```bash
-   cd /path/to/sequoia-toolkit
-   pi
-   ```
-
-2. **Invoquer le skill** dans le chat :
+1. **Invoquer le skill** dans le chat :
    ```
    /skill:sequoia-request-evaluator
    ```
 
-3. **Indiquer le chemin du PDF** de soumission :
+2. **Indiquer le chemin du PDF** de soumission :
    ```
    Évaluez cette soumission : /path/to/soumission_12345.pdf
    ```
@@ -203,7 +201,7 @@ ils sont portables au-delà de Pi :
 
 | Agent | Comment utiliser un skill |
 |---|---|
-| **Pi** | Découverte automatique via `.agents/skills/` ou `/skill:name` |
+| **Pi** | Découverte automatique via `.agents/skills/`. Appeler un skill : `/skill:name` (déterministe) ou en langage naturel (Pi détecte le skill via sa `description`) |
 | **Claude Code** | Placez `SKILL.md` dans `.agents/skills/` — Claude le détecte automatiquement |
 | **Anthropic / OpenAI API** | Lisez `SKILL.md` et injectez le contenu comme prompt système |
 | **Autres agents** | Le format est du Markdown + YAML frontmatter, lisible par tout LLM |
@@ -262,5 +260,6 @@ skills/mon-nouveau-skill/
 ```bash
 cd /path/to/sequoia-toolkit
 pi
-/skill:mon-nouveau-skill   # charger et tester
+# soit /skill:mon-nouveau-skill (déterministe)
+# soit en langage naturel : "Utilise le skill mon-nouveau-skill"
 ```
