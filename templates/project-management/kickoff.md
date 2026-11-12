@@ -3,7 +3,7 @@
 > **Document unique de cadrage, vivant** · Prérempli avant la réunion, modifié collectivement pendant le kick-off et validé ensuite.
 > **Durée indicative :** 60–90 min · **Statut :** `[Préparation / En discussion / Validé / À réviser]` · **Dernière mise à jour :** `[date]`.  
 > **Convention :** `☐` à cocher ; compléter les champs `[entre crochets]`. Pour les informations sensibles ou structurantes, conserver le statut de l'information : **`[Demande]`** (proposition déposée), **`[Proposition]`** (hypothèse de travail), **`[À décider]`** (point ouvert), **`[Validé – date]`** (accord explicite).  
-> **Pendant la réunion :** modifier les sections 1–6 *en place* pour refléter le cadrage discuté ; consigner **uniquement les changements significatifs, décisions, réserves et actions** en section 7. Après la réunion, la version validée des sections 1–6 fait foi ; la section 7 en garde la trace.
+> **Mode d’emploi :** avant la réunion, préremplir les sections 0–6 à partir de la demande EasyChair, en distinguant informations établies, propositions et points à décider. Pendant le kick-off, **modifier directement les sections concernées** pour refléter le cadrage convenu. Consigner en **section 7 les actions à réaliser**, avec leur responsable, leurs éventuels contributeurs et leur échéance, puis créer ou renseigner les tickets Jira correspondants. Après la réunion, finaliser le document et faire valider le cadrage en **section 8**.
 
 ## 0. Identification
 
@@ -183,26 +183,16 @@
 **Service maintenu au-delà du soutien ?** ☐ Oui, conditions définies ☐ Non, prototype livré ☐ À décider.  
 **Responsable de la décision de pérennisation :** [Nom / service].
 
-## 7. Décisions du kick-off et actions immédiates (5 min)
+## 7. Actions à suivre dans Jira (5 min)
 
-### 7.1 Journal des arbitrages et écarts par rapport à la demande
-
-> **Ne pas dupliquer les sections 1–6.** Noter ici les décisions qui changent ou précisent substantiellement le cadrage prérempli, les désaccords et les validations encore requises. Les corrections mineures se font simplement dans la section concernée.
-
-| Date | Sujet / section modifiée | Situation initiale → cadrage retenu | Décideur(s) | Statut |
-|---|---|---|---|---|
-| [Date] | [Ex. §2 : MVP] | [Demande/proposition → résultat convenu] | [Noms] | ☐ Validé ☐ En attente |
-| [Date] | [Ex. §3 : prérequis] | [Risque identifié → condition de go/no-go] | [Noms] | ☐ Validé ☐ En attente |
-| [Date] | [Ex. §4 : assistants IA] | [Options → autorisations et restrictions explicites] | [Noms/services] | ☐ Validé ☐ En attente |
-
-### 7.2 Actions à suivre dans Jira
+> Recenser les actions concrètes identifiées pendant le kick-off, notamment pour lever les prérequis et clarifier les points encore ouverts. **Ne pas répéter ici les décisions de cadrage** : les renseigner directement dans les sections 1–6. Reporter les actions dans Jira après la réunion et compléter les liens des tickets ; Jira devient ensuite la référence pour leur avancement.
 
 | Action | Responsable | Contributeur(s) | Échéance | Ticket Jira / lien |
 |---|---|---|---|---|
-| [Action à réaliser] | Ingénieur 1 | Ingénieur 2 |[Date] | [Lien à créer] |
-| [Action à réaliser] | Ingénieur 2 |             |[Date] | [Lien à créer] |
+| [Action à réaliser] | [Nom] | [Nom / —] | [Date] | [Lien à créer] |
+| [Action à réaliser] | [Nom] | [Nom / —] | [Date] | [Lien à créer] |
 
-**Questions ouvertes / décisions en attente :** [Point, personne chargée de trancher, échéance et effet sur le démarrage ou le pilote]  
+**Questions ouvertes nécessitant une action :** [À reporter dans le tableau ci-dessus ; préciser dans la section concernée les conséquences éventuelles sur le démarrage ou le pilote.]  
 **Prochaine réunion :** [Date / modalité]
 
 ## 8. Validation du cadrage
@@ -213,4 +203,4 @@
 **Référent scientifique :** [Nom, date / confirmation]  
 **Ingénieurs SequoIA :** [Nom, date / confirmation]
 
-> **Après la réunion :** finaliser **ce même document**, dater et signaler les décisions validées (section 7), solliciter une confirmation écrite des responsables (section 8), puis créer l’Epic et les premiers tickets Jira. Les éléments non validés restent explicitement ouverts, avec responsable et échéance ; ils ne sont pas transformés en engagements implicites. Réviser la section IA si les données, les outils ou les règles changent.
+> **Après la réunion :** finaliser **ce même document**, actualiser les statuts des informations dans les sections concernées, solliciter une confirmation écrite des responsables (section 8), puis créer l’Epic et les tickets Jira correspondant aux actions de la section 7. Les éléments non validés restent explicitement ouverts, avec responsable et échéance ; ils ne sont pas transformés en engagements implicites. Réviser la section IA si les données, les outils ou les règles changent.
