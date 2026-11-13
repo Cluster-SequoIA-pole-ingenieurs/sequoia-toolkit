@@ -113,6 +113,36 @@ Voir [`skills/`](skills/) pour les fichiers sources et le guide complet
 d'installation (Pi + ILaaS), utilisation et ajout de nouveaux skills dans
 [`skills/README.md`](skills/README.md).
 
+## Gestion de projet — Documents de suivi
+
+Les projets de soutien d'ingénierie SequoIA s'accompagnent de documents de
+cadrage et de suivi tout au long de la relation. Chaque phase dispose d'un
+template générique (`templates/project-management/`) et d'exemples préremplis
+(`examples/project-management/`).
+
+### Phases
+
+| Phase | Template | Exemples | Description |
+|---|---|---|---|
+| **Lancement** | `templates/project-management/kickoff.md` | `#44_EoS-FM/` · `#46_WEIRDEX/` | Réunion de cadrage : identification, périmètre, livrables, prérequis, politique IA, organisation, calendrier, suivi et pérennité post-soutien |
+| **Suivi** | `templates/project-management/follow-up.md` | *(à venir)* | Points réguliers d'avancement : état des livrables, actions ouvertes, risques, ajustements de planning et de périmètre |
+| **Clôture** | `templates/project-management/closure.md` | *(à venir)* | Bilan de la tranche : livrables validés, documentation, transfert, retour d'expérience et perspectives de poursuite |
+
+### Mode d'emploi
+
+- **Kick-off** : préremplir le template à partir de la demande EasyChair,
+modifier collectivement pendant la réunion, finaliser ensuite et valider le
+cadrage en section 8. Les actions identifiées sont reportées dans Jira.
+- **Suivi** : utiliser le template pour consigner l'avancement à chaque point
+régulier ; lever ou mettre à jour les actions de la section correspondante.
+- **Clôture** : compiler un bilan complet des livrables, du transfert et du
+retour d'expérience ; documenter les perspectives d'une éventuelle seconde
+tranche.
+
+Voir [`templates/project-management/`](templates/project-management/) et
+[`examples/project-management/`](examples/project-management/) pour les
+fichiers.
+
 ## Contribuer
 
 Ajouter une fonctionnalité = ajouter un fichier dans le bon sous-module.
