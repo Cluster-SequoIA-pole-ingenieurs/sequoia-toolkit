@@ -441,7 +441,7 @@ Produce the following two sections. Use a technical but accessible tone. The int
 | A3 — Contact | | |
 | A4 — Scope | | |
 
-**Recevabilité:** Receivable / Non-recevable / To be confirmed  
+**Recevabilité:** Receivable / Non-recevable / To be confirmed
 **Reason:** [brief explanation]
 
 If non-recevable, explain the gate failure. Keep any further technical observations brief and clearly secondary.

@@ -1,8 +1,8 @@
 # SequoIA — Réunion de lancement d'un soutien d'ingénierie
 
 > **Document unique de cadrage, vivant** · Prérempli avant la réunion, modifié collectivement pendant le kick-off et validé ensuite.
-> **Durée indicative :** 60–90 min · **Statut :** `[Préparation / En discussion / Validé / À réviser]` · **Dernière mise à jour :** `[date]`.  
-> **Convention :** `☐` à cocher ; compléter les champs `[entre crochets]`. Pour les informations sensibles ou structurantes, conserver le statut de l'information : **`[Demande]`** (proposition déposée), **`[Proposition]`** (hypothèse de travail), **`[À décider]`** (point ouvert), **`[Validé – date]`** (accord explicite).  
+> **Durée indicative :** 60–90 min · **Statut :** `[Préparation / En discussion / Validé / À réviser]` · **Dernière mise à jour :** `[date]`.
+> **Convention :** `☐` à cocher ; compléter les champs `[entre crochets]`. Pour les informations sensibles ou structurantes, conserver le statut de l'information : **`[Demande]`** (proposition déposée), **`[Proposition]`** (hypothèse de travail), **`[À décider]`** (point ouvert), **`[Validé – date]`** (accord explicite).
 > **Mode d’emploi :** avant la réunion, préremplir les sections 0–6 à partir de la demande EasyChair, en distinguant informations établies, propositions et points à décider. Pendant le kick-off, **modifier directement les sections concernées** pour refléter le cadrage convenu. Consigner en **section 7 les actions à réaliser**, avec leur responsable, leurs éventuels contributeurs et leur échéance, puis créer ou renseigner les tickets Jira correspondants. Après la réunion, finaliser le document et faire valider le cadrage en **section 8**.
 
 ## 0. Identification
@@ -18,21 +18,21 @@
 | Période de soutien envisagée | [Début – fin] |
 | Liens de travail | [Dépôt Git, espace documentaire, Jira, etc.] |
 
-**Participants :** [Noms]  
+**Participants :** [Noms]
 **Personnes absentes à consulter :** [Noms / aucune]
 
 ## 1. Contexte scientifique et résultats recherchés (10 min)
 
-**Problème scientifique / métier :**  
+**Problème scientifique / métier :**
 [En quelques phrases, quel problème motive la demande ?]
 
-**Objectif du projet à plus long terme :**  
+**Objectif du projet à plus long terme :**
 [Objectif scientifique, distinct du soutien d'ingénierie.]
 
-**Résultat attendu du soutien SequoIA :**  
+**Résultat attendu du soutien SequoIA :**
 [Quelle capacité nouvelle, démonstration, expérimentation ou infrastructure sera disponible à la fin ?]
 
-**Lien avec les axes de SequoIA :**  
+**Lien avec les axes de SequoIA :**
 [Axes / piliers pertinents et justification synthétique.]
 
 ## 2. Périmètre, livrables et critères de réussite (15 min)
@@ -45,14 +45,14 @@
 | L2 | [Ex. prototype logiciel] | [Ex. fonctions essentielles testées] | [Nom / rôle] |
 | L3 | [Ex. documentation / transfert] | [Ex. procédure d'installation et de prise en main] | [Nom / rôle] |
 
-**MVP — résultat indispensable à la fin du soutien :**  
+**MVP — résultat indispensable à la fin du soutien :**
 [Décrire une version minimale démontrable, même si le projet complet est plus ambitieux.]
 
-**Dans le périmètre :**  
+**Dans le périmètre :**
 - [Tâche / composant]
 - [Tâche / composant]
 
-**Hors périmètre initial (évolutions possibles) :**  
+**Hors périmètre initial (évolutions possibles) :**
 - [Fonctionnalité / expérimentation]
 - [Fonctionnalité / expérimentation]
 
@@ -78,8 +78,8 @@
 | [Ex. jeux privés et droits d'usage] | ☐ Démarrage ☐ Intégration ☐ Pilote ☐ Mise en production | ☐ Acquis ☐ À obtenir ☐ Bloquant | [Nom] | [Date / données synthétiques] |
 | [Ex. infrastructure et feu vert SSI] | ☐ Démarrage ☐ Intégration ☐ Pilote ☐ Mise en production | ☐ Acquis ☐ À obtenir ☐ Bloquant | [Nom] | [Date / environnement de développement] |
 
-**Conditions minimales d'engagement de l'ingénieur :** [Liste convenue ; éventuellement « aucune, démarrage exploratoire autorisé »].  
-**Conditions à satisfaire avant pilote / ouverture externe :** [Liste convenue].  
+**Conditions minimales d'engagement de l'ingénieur :** [Liste convenue ; éventuellement « aucune, démarrage exploratoire autorisé »].
+**Conditions à satisfaire avant pilote / ouverture externe :** [Liste convenue].
 **Décision de démarrage :** ☐ Go ☐ Go limité (activités autorisées : […]) ☐ No-go, en attente de […]. **[À valider]**
 
 ## 4. Utilisation d'assistants IA pour le développement (10 min)
@@ -88,43 +88,43 @@
 
 ### 4.1 Accord de principe du porteur
 
-**Le porteur souhaite-t-il autoriser les ingénieurs à utiliser des assistants IA pour ce soutien ?**  
-☐ Oui, sous réserve des restrictions ci-dessous  
-☐ Non  
+**Le porteur souhaite-t-il autoriser les ingénieurs à utiliser des assistants IA pour ce soutien ?**
+☐ Oui, sous réserve des restrictions ci-dessous
+☐ Non
 ☐ À confirmer
 
-**Usages envisagés :**  
-☐ Aide à la rédaction de code  ☐ Refactorisation  ☐ Génération de tests  ☐ Débogage  
+**Usages envisagés :**
+☐ Aide à la rédaction de code  ☐ Refactorisation  ☐ Génération de tests  ☐ Débogage
 ☐ Documentation  ☐ Revue de code  ☐ Analyse de données / logs  ☐ Autre : [Préciser]
 
 **Usages ou composants explicitement interdits :** [Préciser / aucun identifié]
 
 ### 4.2 Classification et contraintes des informations
 
-**Le travail comporte-t-il des éléments soumis à des restrictions particulières ?**  
-☐ Aucun identifié  ☐ Code ou résultats non publiés  ☐ Données personnelles  
-☐ Données confidentielles de partenaires / industrielles  ☐ Secret contractuel ou propriété intellectuelle sensible  
-☐ Données ou technologies soumises à des restrictions réglementaires / de sécurité  ☐ Autre : [Préciser]  
+**Le travail comporte-t-il des éléments soumis à des restrictions particulières ?**
+☐ Aucun identifié  ☐ Code ou résultats non publiés  ☐ Données personnelles
+☐ Données confidentielles de partenaires / industrielles  ☐ Secret contractuel ou propriété intellectuelle sensible
+☐ Données ou technologies soumises à des restrictions réglementaires / de sécurité  ☐ Autre : [Préciser]
 ☐ À qualifier
 
-**Origine des restrictions :** [Contrat, convention de partenariat, financeur, politique SSI, licence, RGPD, etc.]  
-**Informations qui ne doivent pas être soumises à un outil d'IA externe :** [Fichiers, dépôts, extraits de code, prompts, logs, secrets, jeux de données, etc.]  
-**Une anonymisation ou un jeu de données synthétique suffit-il à lever certaines restrictions ?** ☐ Oui ☐ Non ☐ À valider  
+**Origine des restrictions :** [Contrat, convention de partenariat, financeur, politique SSI, licence, RGPD, etc.]
+**Informations qui ne doivent pas être soumises à un outil d'IA externe :** [Fichiers, dépôts, extraits de code, prompts, logs, secrets, jeux de données, etc.]
+**Une anonymisation ou un jeu de données synthétique suffit-il à lever certaines restrictions ?** ☐ Oui ☐ Non ☐ À valider
 **Interlocuteur pour validation SSI / DPO / juridique / valorisation si nécessaire :** [Nom ou service]
 
 ### 4.3 Environnement autorisé — décision opérationnelle
 
-☐ **Outils externes approuvés autorisés**, dans les limites précisées ci-dessous (ex. Claude Code, uniquement si autorisé par l'établissement et compatible avec les données).  
-☐ **Solutions institutionnelles ou souveraines uniquement** (ex. ILaaS, sous réserve de validation du service et de ses garanties effectives).  
-☐ **Modèles exécutés localement / environnement maîtrisé uniquement**.  
-☐ **Aucun assistant IA autorisé pour ce projet**.  
+☐ **Outils externes approuvés autorisés**, dans les limites précisées ci-dessous (ex. Claude Code, uniquement si autorisé par l'établissement et compatible avec les données).
+☐ **Solutions institutionnelles ou souveraines uniquement** (ex. ILaaS, sous réserve de validation du service et de ses garanties effectives).
+☐ **Modèles exécutés localement / environnement maîtrisé uniquement**.
+☐ **Aucun assistant IA autorisé pour ce projet**.
 ☐ **Décision différée** : validation requise avant tout usage.
 
-**Outils / modèles / environnements explicitement autorisés :** [Noms, versions ou catégories, conditions]  
-**Outils explicitement exclus :** [Noms / catégories]  
-**Données et dépôts concernés par l'autorisation :** [Périmètre exact]  
-**Conditions complémentaires :** [Paramétrage, conservation, hébergement, accès réseau, journalisation, etc.]  
-**Personne habilitée à valider la décision, si nécessaire :** [Nom / service]  
+**Outils / modèles / environnements explicitement autorisés :** [Noms, versions ou catégories, conditions]
+**Outils explicitement exclus :** [Noms / catégories]
+**Données et dépôts concernés par l'autorisation :** [Périmètre exact]
+**Conditions complémentaires :** [Paramétrage, conservation, hébergement, accès réseau, journalisation, etc.]
+**Personne habilitée à valider la décision, si nécessaire :** [Nom / service]
 **Date de validation / révision :** [Date]
 
 **Règles communes, quel que soit l'outil :** ne jamais transmettre de secrets d'accès ; relire et tester le code généré ; vérifier licences et dépendances ; conserver une revue humaine des changements ; respecter les règles de sécurité du projet.
@@ -140,7 +140,7 @@
 | Fourniture des données / code | [Nom] | [Livraison / accès] |
 | Infrastructure / support technique | [Nom / service] | [Accès / maintenance] |
 
-**Charge d'ingénierie envisagée :** [Jours ou personnes-mois ; estimation indicative et disponibilité]  
+**Charge d'ingénierie envisagée :** [Jours ou personnes-mois ; estimation indicative et disponibilité]
 **Période et contraintes de calendrier :** [Dates, campagnes de mesure, publications, absences, etc.]
 
 | Jalons | Échéance cible | Résultat observable |
@@ -161,13 +161,13 @@
 
 ## 6. Modalités de collaboration et de suivi (10 min)
 
-**Outil de suivi :** [Projet Jira + Epic / URL]  
-**Dépôt et documentation technique :** [URL / droits d'accès]  
-**Canal d'échange :** [Messagerie, liste de diffusion, etc.]  
-**Cadence de suivi :** ☐ Toutes les 2 semaines ☐ Autre : [Préciser]  
-**Participants et format des points de suivi :** [Noms / 30 min / démonstration si pertinente]  
-**Modalité de validation des livrables :** [Qui valide, sur quelle base, sous quel délai ?]  
-**Publication / partage / réutilisation :** [Dépôt public ou privé, licences, calendrier de diffusion]  
+**Outil de suivi :** [Projet Jira + Epic / URL]
+**Dépôt et documentation technique :** [URL / droits d'accès]
+**Canal d'échange :** [Messagerie, liste de diffusion, etc.]
+**Cadence de suivi :** ☐ Toutes les 2 semaines ☐ Autre : [Préciser]
+**Participants et format des points de suivi :** [Noms / 30 min / démonstration si pertinente]
+**Modalité de validation des livrables :** [Qui valide, sur quelle base, sous quel délai ?]
+**Publication / partage / réutilisation :** [Dépôt public ou privé, licences, calendrier de diffusion]
 ### 6.1 Pérennité et transfert après la fin du soutien
 
 > Identifier explicitement qui prendra le relais **au-delà** des personnes-mois SequoIA. Un transfert non attribué est un risque à suivre, pas une responsabilité implicite des ingénieurs.
@@ -179,8 +179,8 @@
 | Données, accès et conformité | [Équipe / nom] | [Autorisations, renouvellements, suppression] | ☐ Confirmé ☐ À décider ☐ Sans objet |
 | Exploitation et assistance utilisateurs | [Équipe / nom] | [Runbook, incidents, support] | ☐ Confirmé ☐ À décider ☐ Sans objet |
 
-**Modalité de passation et jalon de transfert :** [Démonstration, dépôt, documentation, formation ; date].  
-**Service maintenu au-delà du soutien ?** ☐ Oui, conditions définies ☐ Non, prototype livré ☐ À décider.  
+**Modalité de passation et jalon de transfert :** [Démonstration, dépôt, documentation, formation ; date].
+**Service maintenu au-delà du soutien ?** ☐ Oui, conditions définies ☐ Non, prototype livré ☐ À décider.
 **Responsable de la décision de pérennisation :** [Nom / service].
 
 ## 7. Actions à suivre dans Jira (5 min)
@@ -192,15 +192,15 @@
 | [Action à réaliser] | [Nom] | [Nom / —] | [Date] | [Lien à créer] |
 | [Action à réaliser] | [Nom] | [Nom / —] | [Date] | [Lien à créer] |
 
-**Questions ouvertes nécessitant une action :** [À reporter dans le tableau ci-dessus ; préciser dans la section concernée les conséquences éventuelles sur le démarrage ou le pilote.]  
+**Questions ouvertes nécessitant une action :** [À reporter dans le tableau ci-dessus ; préciser dans la section concernée les conséquences éventuelles sur le démarrage ou le pilote.]
 **Prochaine réunion :** [Date / modalité]
 
 ## 8. Validation du cadrage
 
-**Le périmètre, les livrables, les responsabilités, les prérequis de démarrage et les modalités de transfert après soutien ont-ils été confirmés ?**  
+**Le périmètre, les livrables, les responsabilités, les prérequis de démarrage et les modalités de transfert après soutien ont-ils été confirmés ?**
 ☐ Oui  ☐ Oui, avec réserves listées ci-dessus  ☐ Non — lancement différé
 
-**Référent scientifique :** [Nom, date / confirmation]  
+**Référent scientifique :** [Nom, date / confirmation]
 **Ingénieurs SequoIA :** [Nom, date / confirmation]
 
 > **Après la réunion :** finaliser **ce même document**, actualiser les statuts des informations dans les sections concernées, solliciter une confirmation écrite des responsables (section 8), puis créer l’Epic et les tickets Jira correspondant aux actions de la section 7. Les éléments non validés restent explicitement ouverts, avec responsable et échéance ; ils ne sont pas transformés en engagements implicites. Réviser la section IA si les données, les outils ou les règles changent.

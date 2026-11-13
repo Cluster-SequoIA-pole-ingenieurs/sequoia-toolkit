@@ -2,7 +2,7 @@
 
 > **Document cumulatif** — Un seul document par soutien, avec les réunions les plus récentes en premier.
 >
-> **Cadence indicative :** toutes les deux semaines.  
+> **Cadence indicative :** toutes les deux semaines.
 > **Durée indicative :** 20–30 minutes.
 >
 > **Consignes :** actualiser l'état du soutien, puis ajouter le nouveau compte rendu en tête de l'historique. Se limiter aux avancées significatives, blocages, décisions et priorités. Le suivi détaillé des tâches reste dans l'outil dédié, lorsqu'il existe.
