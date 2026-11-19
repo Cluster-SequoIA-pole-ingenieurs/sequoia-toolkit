@@ -5,7 +5,7 @@
 > **Cadence indicative :** toutes les deux semaines.
 > **Durée indicative :** 20–30 minutes.
 >
-> **Consignes :** actualiser l'état du soutien, puis ajouter le nouveau compte rendu en tête de l'historique. Se limiter aux avancées significatives, blocages, décisions et priorités. Le suivi détaillé des tâches reste dans l'outil dédié, lorsqu'il existe.
+> **Consignes :** actualiser l'état du soutien, puis ajouter le nouveau compte rendu en tête de l'historique. Se limiter aux avancées significatives, blocages, décisions et priorités. Le suivi détaillé des tâches, responsables, statuts et échéances reste dans l'outil retenu au kick-off ; référencer les tâches concernées par des liens pour éviter la double saisie.
 
 ## 0. Identification
 
@@ -17,7 +17,7 @@
 | Ingénieurs SequoIA | [Noms] |
 | Période du soutien | [Début – fin] |
 | Document de kick-off validé | [Lien] |
-| Suivi des tâches | [Lien Jira / Plane / autre, si utilisé] |
+| Suivi des tâches | [Nom / URL de l'outil du porteur ou liens vers les issues et le tableau GitHub / GitLab] |
 
 ## 1. État actuel du soutien
 
@@ -57,9 +57,11 @@
 
 **Actions à suivre**
 
-| Action | Responsable | Échéance | Ticket / lien |
+> Consigner les nouvelles actions ou décisions attendues issues de ce point, puis créer ou renseigner les tâches / issues correspondantes dans l'outil retenu et compléter leurs liens. Cet outil reste la référence pour leur avancement ; ce tableau conserve la trace du point de suivi, sans double mise à jour.
+
+| Action | Responsable | Échéance | Tâche / issue / lien |
 |---|---|---|---|
-| [Action ou décision attendue] | [Nom] | [Date] | [Lien / —] |
+| [Action ou décision attendue] | [Nom] | [Date] | [Lien à créer / lien existant] |
 
 **Prochain point :** [Date]
 

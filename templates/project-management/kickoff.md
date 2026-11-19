@@ -3,7 +3,7 @@
 > **Document unique de cadrage, vivant** · Prérempli avant la réunion, modifié collectivement pendant le kick-off et validé ensuite.
 > **Durée indicative :** 60–90 min · **Statut :** `[Préparation / En discussion / Validé / À réviser]` · **Dernière mise à jour :** `[date]`.
 > **Convention :** `☐` à cocher ; compléter les champs `[entre crochets]`. Pour les informations sensibles ou structurantes, conserver le statut de l'information : **`[Demande]`** (proposition déposée), **`[Proposition]`** (hypothèse de travail), **`[À décider]`** (point ouvert), **`[Validé – date]`** (accord explicite).
-> **Mode d’emploi :** avant la réunion, préremplir les sections 0–6 à partir de la demande EasyChair, en distinguant informations établies, propositions et points à décider. Pendant le kick-off, **modifier directement les sections concernées** pour refléter le cadrage convenu. Consigner en **section 7 les actions à réaliser**, avec leur responsable, leurs éventuels contributeurs et leur échéance, puis créer ou renseigner les tickets Jira correspondants. Après la réunion, finaliser le document et faire valider le cadrage en **section 8**.
+> **Mode d’emploi :** avant la réunion, préremplir les sections 0–6 à partir de la demande EasyChair, en distinguant informations établies, propositions et points à décider. Pendant le kick-off, **modifier directement les sections concernées** pour refléter le cadrage convenu. Consigner en **section 7 les actions à réaliser**, avec leur responsable, leurs éventuels contributeurs et leur échéance, puis créer ou renseigner les tâches / issues correspondantes dans l'outil de suivi retenu en **section 6**. Après la réunion, finaliser le document et faire valider le cadrage en **section 8**.
 
 ## 0. Identification
 
@@ -16,7 +16,7 @@
 | Ingénieurs SequoIA | [Nom 1] (référent), [Nom 2] |
 | Autres contributeurs | [Noms et rôles] |
 | Période de soutien envisagée | [Début – fin] |
-| Liens de travail | [Dépôt Git, espace documentaire, Jira, etc.] |
+| Liens de travail | [Dépôt Git, espace documentaire, outil de suivi, etc.] |
 
 **Participants :** [Noms]
 **Personnes absentes à consulter :** [Noms / aucune]
@@ -161,13 +161,23 @@
 
 ## 6. Modalités de collaboration et de suivi (10 min)
 
-**Outil de suivi :** [Projet Jira + Epic / URL]
+> **Choix de l'outil :** utiliser l'outil de suivi du porteur de projet s'il en dispose déjà. Sinon, utiliser les issues du dépôt GitHub / GitLab du projet et un tableau de suivi associé (GitHub Projects ou tableau d'issues GitLab, par exemple en Kanban).
+
+**Solution retenue :** ☐ Outil existant du porteur ☐ Issues et tableau GitHub / GitLab
+**Outil de suivi et tableau du projet :** [Nom / URL de l'outil existant ou liens vers les issues et le tableau]
+**Responsable de la mise en place et des accès :** [Nom ; accès à prévoir pour le porteur et les ingénieurs impliqués]
+**Organisation du suivi des tâches :** [Responsables, statuts, priorités, échéances et signalement des blocages ; ex. À faire / En cours / Terminé]
+**Journal de suivi :** [Lien vers le document cumulatif du soutien] — modèle : [journal de suivi](follow-up.md).
+
+> **Éviter la double saisie :** ce document de kick-off reste la référence pour le cadrage ; l'outil retenu porte le suivi détaillé des tâches, responsables, statuts et échéances ; le journal de suivi consigne les avancées significatives, blocages, décisions et prochaines priorités, avec des liens vers les tâches concernées.
+
 **Dépôt et documentation technique :** [URL / droits d'accès]
 **Canal d'échange :** [Messagerie, liste de diffusion, etc.]
 **Cadence de suivi :** ☐ Toutes les 2 semaines ☐ Autre : [Préciser]
 **Participants et format des points de suivi :** [Noms / 30 min / démonstration si pertinente]
 **Modalité de validation des livrables :** [Qui valide, sur quelle base, sous quel délai ?]
 **Publication / partage / réutilisation :** [Dépôt public ou privé, licences, calendrier de diffusion]
+
 ### 6.1 Pérennité et transfert après la fin du soutien
 
 > Identifier explicitement qui prendra le relais **au-delà** des personnes-mois SequoIA. Un transfert non attribué est un risque à suivre, pas une responsabilité implicite des ingénieurs.
@@ -183,11 +193,11 @@
 **Service maintenu au-delà du soutien ?** ☐ Oui, conditions définies ☐ Non, prototype livré ☐ À décider.
 **Responsable de la décision de pérennisation :** [Nom / service].
 
-## 7. Actions à suivre dans Jira (5 min)
+## 7. Actions à suivre dans l'outil retenu (5 min)
 
-> Recenser les actions concrètes identifiées pendant le kick-off, notamment pour lever les prérequis et clarifier les points encore ouverts. **Ne pas répéter ici les décisions de cadrage** : les renseigner directement dans les sections 1–6. Reporter les actions dans Jira après la réunion et compléter les liens des tickets ; Jira devient ensuite la référence pour leur avancement.
+> Recenser les actions concrètes identifiées pendant le kick-off, notamment pour lever les prérequis et clarifier les points encore ouverts. **Ne pas répéter ici les décisions de cadrage** : les renseigner directement dans les sections 1–6. Créer ou renseigner les tâches / issues dans l'outil retenu en section 6 après la réunion et compléter leurs liens ci-dessous ; cet outil devient ensuite la référence pour leur avancement, sans double mise à jour de ce tableau.
 
-| Action | Responsable | Contributeur(s) | Échéance | Ticket Jira / lien |
+| Action | Responsable | Contributeur(s) | Échéance | Tâche / issue / lien |
 |---|---|---|---|---|
 | [Action à réaliser] | [Nom] | [Nom / —] | [Date] | [Lien à créer] |
 | [Action à réaliser] | [Nom] | [Nom / —] | [Date] | [Lien à créer] |
@@ -203,4 +213,4 @@
 **Référent scientifique :** [Nom, date / confirmation]
 **Ingénieurs SequoIA :** [Nom, date / confirmation]
 
-> **Après la réunion :** finaliser **ce même document**, actualiser les statuts des informations dans les sections concernées, solliciter une confirmation écrite des responsables (section 8), puis créer l’Epic et les tickets Jira correspondant aux actions de la section 7. Les éléments non validés restent explicitement ouverts, avec responsable et échéance ; ils ne sont pas transformés en engagements implicites. Réviser la section IA si les données, les outils ou les règles changent.
+> **Après la réunion :** finaliser **ce même document**, actualiser les statuts des informations dans les sections concernées, solliciter une confirmation écrite des responsables (section 8), puis mettre en place les accès et le tableau de suivi si nécessaire, créer ou renseigner les tâches / issues correspondant aux actions de la section 7 dans l'outil retenu en section 6 et compléter leurs liens. Les éléments non validés restent explicitement ouverts, avec responsable et échéance ; ils ne sont pas transformés en engagements implicites. Réviser la section IA si les données, les outils ou les règles changent.
