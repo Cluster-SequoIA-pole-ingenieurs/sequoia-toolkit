@@ -12,6 +12,7 @@ htmlcov/
 site/
 slurm-*.out
 .pi
+uv.lock
 
 # Construction du paquet
 build/

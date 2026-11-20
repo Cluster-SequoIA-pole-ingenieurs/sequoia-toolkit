@@ -11,6 +11,8 @@ repos:
     rev: v6.0.0
     hooks:
       - id: trailing-whitespace
+        # Preserve Markdown hard line breaks (two trailing spaces).
+        exclude: '(?i)\.md$'
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-toml
