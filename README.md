@@ -128,7 +128,7 @@ template générique (`templates/project-management/`) et d'exemples préremplis
 
 - **Kick-off** : préremplir le template à partir de la demande EasyChair,
 modifier collectivement pendant la réunion, finaliser ensuite et valider le
-cadrage en section 8. Les actions identifiées sont reportées dans Jira.
+cadrage en section 8. Les actions identifiées sont reportées dans l'outil de suivi choisi.
 - **Suivi** : utiliser le template pour consigner l'avancement à chaque point
 régulier ; lever ou mettre à jour les actions de la section correspondante.
 - **Clôture** : compiler un bilan complet des livrables, du transfert et du
@@ -138,6 +138,10 @@ tranche.
 Voir [`templates/project-management/`](templates/project-management/) et
 [`examples/project-management/`](examples/project-management/) pour les
 fichiers.
+
+## Démarrer un nouveau projet d'ingénierie
+
+Le [guide de mise en place du socle Python](templates/python-project-setup.md) explique comment copier le [squelette](templates/python-project/), installer les outils, vérifier le code et activer les contrôles obligatoires sur GitHub. L'utilisation de ces fichiers ne nécessite pas d'installer le paquet `sequoia-toolkit`.
 
 ## Contribuer
 
