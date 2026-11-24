@@ -105,10 +105,6 @@ Ils sont **indépendants de tout agent** : le même `SKILL.md` fonctionne avec
 Pi, Claude Code, ou tout autre agent compatible. Chaque fichier ne contient
 que des instructions en Markdown, aucun code ni dépendance.
 
-| Skill | Description |
-|---|---|
-| `sequoia-request-evaluator` | Évaluation de demandes de support ingénierie |
-
 Voir [`skills/`](skills/) pour les fichiers sources et le guide complet
 d'installation (Pi + ILaaS), utilisation et ajout de nouveaux skills dans
 [`skills/README.md`](skills/README.md).

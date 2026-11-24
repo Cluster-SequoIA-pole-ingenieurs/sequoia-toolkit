@@ -23,6 +23,9 @@ tâche — ce qui économise l'espace contextuel et garde les réponses ciblées
 skills/
 ├── sequoia-request-evaluator/
 │   └── SKILL.md          # Instructions du skill
+├── sequoia-project-bootstrap/
+│   └── SKILL.md          # Instructions du skill
+├── ...
 └── README.md             # Ce fichier
 ```
 
@@ -47,9 +50,12 @@ dans lequel il doit être utilisé.
 
 | Skill | Fichier | Pour quoi faire |
 |---|---|---|
-| `sequoia-request-evaluator` | `sequoia-request-evaluator/SKILL.md` | Évaluation de demandes de support ingénierie |
+| `sequoia-request-evaluator` | [`sequoia-request-evaluator/SKILL.md`](sequoia-request-evaluator/SKILL.md) | Évaluation de demandes de support ingénierie |
+| `sequoia-project-bootstrap` | [`sequoia-project-bootstrap/SKILL.md`](sequoia-project-bootstrap/SKILL.md) | Création ou mise à jour d'un AGENTS.md de projet après validation du kick-off, à partir du cadrage et du dépôt |
 
 Pour les instructions détaillées d'un skill, lisez directement son `SKILL.md`.
+
+Pour initialiser les instructions d'un projet, invoquez `/skill:sequoia-project-bootstrap` dans Pi, puis fournissez le chemin du dépôt cible et le kick-off validé (ou un extrait approuvé comprenant la validation et la politique IA). Exemple : « Crée l'AGENTS.md de `/chemin/mon-projet` à partir de `/chemin/kickoff-valide.md`. » Le skill vérifie l'autorisation d'utilisation de l'assistant avant d'inspecter le code, préserve les ajouts manuels lors des mises à jour et fournit un bilan des vérifications et des questions ouvertes pour relecture par l'ingénieur.
 
 ## Installer Pi et configurer l'accès LLM
 
