@@ -113,6 +113,30 @@ to detailed documents instead of reproducing them. Include only useful sections:
 5. **References and relevant skills:** links to maintained technical documentation
    and available skills, stating briefly when each is useful.
 
+For a new `AGENTS.md`, include the following maintainability guidance by default.
+Adapt it to the project's language and conventions. For an existing file, keep
+equivalent guidance and add only what is missing. Put these rules in an existing
+section when it fits. Treat them as SequoIA defaults and defer to established
+project requirements if they conflict.
+
+```markdown
+## Keep changes readable and scoped
+
+- Make the simplest complete change that meets the agreed requirements.
+  Follow existing patterns and reuse suitable code.
+- Add an abstraction, configuration option, or dependency only when it
+  solves a concrete problem in the current change. Explain the benefit in
+  the change description when it adds complexity for future maintainers.
+- Prefer clear names, explicit control flow, and code a teammate can trace
+  from input to output. Document scientific assumptions, units, and
+  tolerances where they affect the result.
+- Keep refactors focused. Update affected callers and preserve validation,
+  error handling, and reproducibility. Test meaningful behavior changes.
+```
+
+These defaults draw on [Ponytail's AGENTS.md](https://github.com/DietrichGebert/ponytail/blob/main/AGENTS.md).
+Judge simplicity by how easily an engineer can review and maintain the result.
+
 Include scientific or HPC requirements only when supported by the project:
 for example, benchmark splits, numerical tolerances, units, random seeds,
 environment provenance, scheduler variants or job resource limits. Do not invent
