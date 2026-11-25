@@ -139,9 +139,10 @@ Voir [`templates/project-management/`](templates/project-management/) et
 [`examples/project-management/`](examples/project-management/) pour les
 fichiers.
 
-## Démarrer un nouveau projet d'ingénierie
 
-Le [guide de mise en place du socle Python](templates/python-project-setup.md) explique comment copier le [squelette](templates/python-project/), installer les outils, vérifier le code et activer les contrôles obligatoires sur GitHub. L'utilisation de ces fichiers ne nécessite pas d'installer le paquet `sequoia-toolkit`.
+## Démarrer un nouveau projet d’ingénierie
+
+Utilisez le [modèle SequoIA project-starter](https://github.com/Cluster-SequoIA-pole-ingenieurs/project-starter) pour initialiser un projet Python. Son guide décrit l’installation, les vérifications locales et la configuration de la CI sur GitHub ou GitLab.
 
 ## Contribuer
 
